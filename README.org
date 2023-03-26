@@ -1,0 +1,37 @@
+#+TITLE: DahlkesOS
+#+DESCRIPTION: An installtion script to install my flavour of ArchLinux.
+#+AUTHOR: Stefan Dahlke
+#+PROPERTY: header-args :tangle dahlkesOS
+#+auto_tangle: t
+#+STARTUP: showeverything
+
+* TABLE OF CONTENTS :toc:
+- [[#about-dahlkesos][About DahlkesOS]]
+- [[#installing-dahlkeos][Installing DahlkeOS]]
+  - [[#creating-iso][Creating ISO]]
+  - [[#installation-instructions][Installation instructions]]
+- [[#shebang-plus-comments][Shebang plus comments]]
+
+* About DahlkesOS
+#+CAPTION: DahlkesOS scrot
+#+ATTR_HTML: :alt DahlkesOS scrot :title DahlkesOS Scrot :aling left
+
+DahlkesOS is the installation script for my personal ArchLinux flaovur.
+It is moslty based on DTOS by Derek Taylor (DistroTube) and I added my changes to fit my personal needs.
+* Installing DahlkeOS
+** Creating ISO
+Before running this script you have to create the DahlkesOS iso.
+For this run the script in the folder iso.
+** Installation instructions
+* Shebang plus comments
+#+BEGIN_SRC bash :shebang "#!/usr/bin/env bash"
+# ____        _     _ _              ___  ____
+#|  _ \  __ _| |__ | | | _____  ___ / _ \/ ___|     Stefan Dahlke
+#| | | |/ _` | '_ \| | |/ / _ \/ __| | | \___ \     https://www.github.com/dahlkes
+#| |_| | (_| | | | | |   <  __/\__ \ |_| |___) |
+#|____/ \__,_|_| |_|_|_|\_\___||___/\___/|____/
+#
+# NAME: DahlkesOS
+# DESC: A installation script for my personal ArchLinux setup.
+# WARNING: Run this script at your own risk.
+#+END_SRC
