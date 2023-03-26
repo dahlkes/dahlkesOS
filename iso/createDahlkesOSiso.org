@@ -11,13 +11,19 @@
   - [[#using-arch-based-linux][Using arch based linux]]
   - [[#using-other-os][Using other OS]]
 - [[#shebang-and-comments][Shebang and comments]]
-- [[#get-latest-archlinux-iso][Get latest ArchLinux ISO]]
+- [[#verify-boot-menu][Verify boot menu]]
+- [[#setup-disk][Setup disk]]
+  - [[#partition-the-disks][Partition the disks]]
+  - [[#format-the-partitions][Format the partitions]]
+  - [[#mount-the-partitions][Mount the partitions]]
+- [[#install-essential-packags][Install essential packags]]
+- [[#configure-system][Configure system]]
 
 * About
 * Create DahlkesOS ISO
 ** Using arch based linux
-... todo
-#+BEGIN_SRC bash
+Run this script on an Arch based distro to create an ArchLinux iso with the needed installation script.
+#+BEGIN_SRC
 mkdir archlive
 cp -r /usr/share/archiso/configs/releng ./archlive
 mv ./archlive/releng ./archlive/dahlkesOS
@@ -31,6 +37,7 @@ rm -r archlive
 Use the online iso builder found under:
 https://colab.research.google.com/github/tallero/archiso-profiles/
 
+- TODO: get this repo running with the specific profile. (Maybe working with branching)
 
 * Shebang and comments
 #+BEGIN_SRC bash :shebang "#!/usr/bin/env bash"
@@ -44,9 +51,67 @@ https://colab.research.google.com/github/tallero/archiso-profiles/
 # DESC: A installation script for my personal ArchLinux setup.
 # WARNING: Run this script at your own risk.
 #+END_SRC
-* Get latest ArchLinux ISO
-At first you have to download the latest ArchLinux iso.
-This code has to be improved to get automatial the latest verson. At the moment it is hard coded.
+* Verify boot menu
+Check if UEFI is used. Set variables to configure the correct boot system later.
 #+BEGIN_SRC bash
-wget https://ftp.halifax.rwth-aachen.de/archlinux/iso/2023.03.01/archlinux-2023.03.01-x86_64.iso
+if [ -e /sys/firmware/efi/efivars ]; then
+    is_uefi=true
+else
+    is_uefi=false
+fi
 #+END_SRC
+* Setup disk
+** Partition the disks
+Check which disks are availabile in the system and choose the device.
+#+BEGIN_SRC bash
+fdisk -l
+
+read -p "Which device to you want to partitionate? (input the whole device path /dev/sda) " device
+gdisk $device
+
+#+END_SRC
+** Format the partitions
+Format the several partitions with the correct file system.
+
+Root partition:
+#+BEGIN_SRC bash
+mkfs.ext4 /dev/vda3
+#+END_SRC
+
+UEFI partition:
+#+BEGIN_SRC bash
+if $is_uefi == true; then
+   mkfs.fat32 /dev/vda2
+fi
+#+END_SRC
+
+Swap Partition:
+#+BEGIN_SRC bash
+swapon /dev/vda1
+#+END_SRC
+** Mount the partitions
+Mount root and uefi disk to specific mount points.
+#+begin_src bash
+mount --mkdir /dev/vda3 /mnt
+mount --mkdir /dev/vda2 /mnt/boot
+#+end_src
+* Install essential packags
+Install the essential arch packages to the root fs.
+#+begin_src bash
+pacstrap -K /mnt base linux linux-firmware vim git
+#+end_src
+* Configure system
+#+begin_src bash
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+hwclock --systohc
+locale-gen
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
+read -p "What is the name of the system: " pc_name
+echo $pc_name >> /etc/hostname
+echo "The root password will now be set"
+passwd
+#+end_src
+

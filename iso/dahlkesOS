@@ -1,12 +1,3 @@
-mkdir archlive
-cp -r /usr/share/archiso/configs/releng ./archlive
-mv ./archlive/releng ./archlive/dahlkesOS
-cp dahlkesOS ./archlive/dahlkesOS/airootfs/root/dahlkesOS
-mkdir work
-sudo mkarchiso -v -w ./work ./archlive/dahlkesOS
-rm -r work
-rm -r archlive
-
 #!/usr/bin/env bash
 # ____        _     _ _              ___  ____
 #|  _ \  __ _| |__ | | | _____  ___ / _ \/ ___|     Stefan Dahlke
@@ -18,4 +9,38 @@ rm -r archlive
 # DESC: A installation script for my personal ArchLinux setup.
 # WARNING: Run this script at your own risk.
 
-wget https://ftp.halifax.rwth-aachen.de/archlinux/iso/2023.03.01/archlinux-2023.03.01-x86_64.iso
+if [ -e /sys/firmware/efi/efivars ]; then
+    is_uefi=true
+else
+    is_uefi=false
+fi
+
+fdisk -l
+
+read -p "Which device to you want to partitionate? (input the whole device path /dev/sda) " device
+gdisk $device
+
+mkfs.ext4 /dev/vda3
+
+if $is_uefi == true; then
+   mkfs.fat32 /dev/vda2
+fi
+
+swapon /dev/vda1
+
+mount --mkdir /dev/vda3 /mnt
+mount --mkdir /dev/vda2 /mnt/boot
+
+pacstrap -K /mnt base linux linux-firmware vim git
+
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+hwclock --systohc
+locale-gen
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
+read -p "What is the name of the system: " pc_name
+echo $pc_name >> /etc/hostname
+echo "The root password will now be set"
+passwd
