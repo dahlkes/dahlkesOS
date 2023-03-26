@@ -17,6 +17,16 @@
 * Create DahlkesOS ISO
 ** Using arch based linux
 ... todo
+#+BEGIN_SRC bash
+mkdir archlive
+cp -r /usr/share/archiso/configs/releng ./archlive
+mv ./archlive/releng ./archlive/dahlkesOS
+cp dahlkesOS ./archlive/dahlkesOS/airootfs/root/dahlkesOS
+mkdir work
+sudo mkarchiso -v -w ./work ./archlive/dahlkesOS
+rm -r work
+rm -r archlive
+#+END_SRC
 ** Using other OS
 Use the online iso builder found under:
 https://colab.research.google.com/github/tallero/archiso-profiles/
@@ -37,5 +47,6 @@ https://colab.research.google.com/github/tallero/archiso-profiles/
 * Get latest ArchLinux ISO
 At first you have to download the latest ArchLinux iso.
 This code has to be improved to get automatial the latest verson. At the moment it is hard coded.
-#+BEGIN_SRC wget https://ftp.halifax.rwth-aachen.de/archlinux/iso/2023.03.01/archlinux-2023.03.01-x86_64.iso
+#+BEGIN_SRC bash
+wget https://ftp.halifax.rwth-aachen.de/archlinux/iso/2023.03.01/archlinux-2023.03.01-x86_64.iso
 #+END_SRC
