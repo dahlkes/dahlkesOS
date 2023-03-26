@@ -18,6 +18,7 @@
   - [[#mount-the-partitions][Mount the partitions]]
 - [[#install-essential-packags][Install essential packags]]
 - [[#configure-system][Configure system]]
+  - [[#configure-script-after-chroot][Configure script after chroot]]
 
 * About
 * Create DahlkesOS ISO
@@ -67,7 +68,7 @@ Check which disks are availabile in the system and choose the device.
 fdisk -l
 
 read -p "Which device to you want to partitionate? (input the whole device path /dev/sda) " device
-gdisk $device
+cfdisk $device
 
 #+END_SRC
 ** Format the partitions
@@ -103,7 +104,25 @@ pacstrap -K /mnt base linux linux-firmware vim git
 * Configure system
 #+begin_src bash
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
+cp configSystem /mnt/root
+arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
+rm /mnt/root/configSystem
+#+end_src
+** Configure script after chroot
+Shebang and comment
+#+BEGIN_SRC bash :shebang "#!/usr/bin/env bash" :tangle configSystem
+# ____        _     _ _              ___  ____
+#|  _ \  __ _| |__ | | | _____  ___ / _ \/ ___|     Stefan Dahlke
+#| | | |/ _` | '_ \| | |/ / _ \/ __| | | \___ \     https://www.github.com/dahlkes
+#| |_| | (_| | | | | |   <  __/\__ \ |_| |___) |
+#|____/ \__,_|_| |_|_|_|\_\___||___/\___/|____/
+#
+# NAME: DahlkesOS
+# DESC: A installation script for my personal ArchLinux setup.
+# WARNING: Run this script at your own risk.
+#+END_SRC
+System configuration
+#+begin_src bash :tangle configSystem
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
 locale-gen
@@ -113,5 +132,5 @@ read -p "What is the name of the system: " pc_name
 echo $pc_name >> /etc/hostname
 echo "The root password will now be set"
 passwd
+exit
 #+end_src
-

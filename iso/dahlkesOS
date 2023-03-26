@@ -18,7 +18,7 @@ fi
 fdisk -l
 
 read -p "Which device to you want to partitionate? (input the whole device path /dev/sda) " device
-gdisk $device
+cfdisk $device
 
 mkfs.ext4 /dev/vda3
 
@@ -34,13 +34,6 @@ mount --mkdir /dev/vda2 /mnt/boot
 pacstrap -K /mnt base linux linux-firmware vim git
 
 genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-hwclock --systohc
-locale-gen
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
-read -p "What is the name of the system: " pc_name
-echo $pc_name >> /etc/hostname
-echo "The root password will now be set"
-passwd
+cp configSystem /mnt/root
+arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
+rm /mnt/root/configSystem

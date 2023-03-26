@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# ____        _     _ _              ___  ____
+#|  _ \  __ _| |__ | | | _____  ___ / _ \/ ___|     Stefan Dahlke
+#| | | |/ _` | '_ \| | |/ / _ \/ __| | | \___ \     https://www.github.com/dahlkes
+#| |_| | (_| | | | | |   <  __/\__ \ |_| |___) |
+#|____/ \__,_|_| |_|_|_|\_\___||___/\___/|____/
+#
+# NAME: DahlkesOS
+# DESC: A installation script for my personal ArchLinux setup.
+# WARNING: Run this script at your own risk.
+
+ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
+hwclock --systohc
+locale-gen
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
+read -p "What is the name of the system: " pc_name
+echo $pc_name >> /etc/hostname
+echo "The root password will now be set"
+passwd
+exit
