@@ -105,7 +105,7 @@ mkfs.ext4 /dev/vda3
 UEFI partition:
 #+BEGIN_SRC bash
 if $is_uefi == true; then
-   mkfs.fat32 /dev/vda2
+   mkfs.fat32 -F32 /dev/vda2
 fi
 #+END_SRC
 
@@ -122,7 +122,7 @@ mount --mkdir /dev/vda2 /mnt/boot
 * Install essential packags
 Install the essential arch packages to the root fs.
 #+begin_src bash
-pacstrap -K /mnt base linux linux-firmware vim git
+pacstrap -K /mnt base linux linux-firmware vim git networkmanager grub efibootmgr
 #+end_src
 * Configure system
 #+begin_src bash
@@ -130,6 +130,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp configSystem /mnt/root
 arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
 rm /mnt/root/configSystem
+reboot
 #+end_src
 ** Configure script after chroot
 System configuration
@@ -137,11 +138,19 @@ System configuration
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
 locale-gen
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf
-echo "KEYMAP=de-latin1" >> /etc/vconsole.conf
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "KEYMAP=de-latin1" > /etc/vconsole.conf
 read -p "What is the name of the system: " pc_name
 echo $pc_name >> /etc/hostname
+echo "127.0.0.1\tlocalhost" >> /etc/hosts
+echo "::1\t\tlocalhost" >> /etc/hosts
+echo "127.0.1.1\t$pc_name.localdomain $pc_name" >> /etc/hosts
+systemctl enable NetworkManager
 echo "The root password will now be set"
 passwd
+#pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --bootloader=GRUB --efi-directory=/efi --removable
+grub-mkconfig -o /boot/grub/grub.cfg
 exit
 #+end_src
+*

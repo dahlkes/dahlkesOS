@@ -50,6 +50,7 @@ mpc
 mpd
 mpv
 multicolor-sddm-theme
+networkmanager
 network-manager-applet
 onlyoffice-bin
 opendoas
