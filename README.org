@@ -1,7 +1,7 @@
 #+TITLE: DahlkesOS
 #+DESCRIPTION: An installtion script to install my flavour of ArchLinux.
 #+AUTHOR: Stefan Dahlke
-#+PROPERTY: header-args :tangle dahlkesOS
+#+PROPERTY: header-args :tangle ./scripts/dahlkesOS
 #+auto_tangle: t
 #+STARTUP: showeverything
 
