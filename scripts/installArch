@@ -29,7 +29,7 @@ fi
 swapon /dev/vda1
 
 mount --mkdir /dev/vda3 /mnt
-mount --mkdir /dev/vda2 /mnt/boot
+mount --mkdir /dev/vda2 /mnt/efi
 
 pacstrap -K /mnt base linux linux-firmware vim git networkmanager grub efibootmgr
 
