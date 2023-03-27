@@ -1,7 +1,7 @@
 #+TITLE: DahlkesOS
 #+DESCRIPTION: An installtion script to install my flavour of ArchLinux.
 #+AUTHOR: Stefan Dahlke
-#+PROPERTY: header-args :tangle ../scripts/installArch
+#+PROPERTY: header-args :tangle ./scripts/installArch
 #+auto_tangle: t
 #+STARTUP: showeverything
 
@@ -33,7 +33,7 @@
 # DESC: A installation script for my personal ArchLinux setup.
 # WARNING: Run this script at your own risk.
 #+END_SRC
-#+BEGIN_SRC bash :shebang "#!/usr/bin/env bash" :tangle ../scripts/buildCustomIso
+#+BEGIN_SRC bash :shebang "#!/usr/bin/env bash" :tangle ./scripts/buildCustomIso
 # ____        _     _ _              ___  ____
 #|  _ \  __ _| |__ | | | _____  ___ / _ \/ ___|     Stefan Dahlke
 #| | | |/ _` | '_ \| | |/ / _ \/ __| | | \___ \     https://www.github.com/dahlkes
@@ -44,7 +44,7 @@
 # DESC: A installation script for my personal ArchLinux setup.
 # WARNING: Run this script at your own risk.
 #+END_SRC
-#+BEGIN_SRC bash :shebang "#!/usr/bin/env bash" :tangle ../scripts/configSystem
+#+BEGIN_SRC bash :shebang "#!/usr/bin/env bash" :tangle ./scripts/configSystem
 # ____        _     _ _              ___  ____
 #|  _ \  __ _| |__ | | | _____  ___ / _ \/ ___|     Stefan Dahlke
 #| | | |/ _` | '_ \| | |/ / _ \/ __| | | \___ \     https://www.github.com/dahlkes
@@ -59,7 +59,7 @@
 * Create DahlkesOS ISO
 ** Using arch based linux
 Run this script on an Arch based distro to create an ArchLinux iso with the needed installation script.
-#+BEGIN_SRC bash :tangle ../scripts/buildCustomIso
+#+BEGIN_SRC bash :tangle ./scripts/buildCustomIso
 mkdir archlive
 cp -r /usr/share/archiso/configs/releng ./archlive
 mv ./archlive/releng ./archlive/dahlkesOS
@@ -133,7 +133,7 @@ rm /mnt/root/configSystem
 #+end_src
 ** Configure script after chroot
 System configuration
-#+BEGIN_SRC bash :tangle ../scripts/configSystem
+#+BEGIN_SRC bash :tangle ./scripts/configSystem
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
 locale-gen
