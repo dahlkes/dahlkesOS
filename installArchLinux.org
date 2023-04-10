@@ -105,7 +105,7 @@ mkfs.ext4 /dev/vda3
 UEFI partition:
 #+BEGIN_SRC bash
 if $is_uefi == true; then
-   mkfs.fat32 -F32 /dev/vda2
+   mkfs.fat -F32 /dev/vda2
 fi
 #+END_SRC
 
@@ -131,7 +131,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp configSystem /mnt/root
 arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
 rm /mnt/root/configSystem
-unmount -R /mnt
+umount -R /mnt
 reboot
 #+end_src
 ** Configure script after chroot

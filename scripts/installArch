@@ -23,7 +23,7 @@ cfdisk $device
 mkfs.ext4 /dev/vda3
 
 if $is_uefi == true; then
-   mkfs.fat32 -F32 /dev/vda2
+   mkfs.fat -F32 /dev/vda2
 fi
 
 mkswap /dev/vda1
@@ -38,5 +38,5 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp configSystem /mnt/root
 arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
 rm /mnt/root/configSystem
-unmount -R /mnt
+umount -R /mnt
 reboot
