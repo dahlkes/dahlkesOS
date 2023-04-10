@@ -32,7 +32,7 @@ swapon /dev/vda1
 mount --mkdir /dev/vda3 /mnt
 mount --mkdir /dev/vda2 /mnt/efi
 
-pacstrap -K /mnt base linux linux-firmware vim git networkmanager grub efibootmgr
+pacstrap -K /mnt base linux linux-firmware vim git networkmanager grub efibootmgr sudo
 
 genfstab -U /mnt >> /mnt/etc/fstab
 cp configSystem /mnt/root

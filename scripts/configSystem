@@ -13,7 +13,7 @@ ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
-echo "KEYMAP=de-latin1" > /etc/vconsole.conf
+echo "KEYMAP=us" > /etc/vconsole.conf
 read -p "What is the name of the system: " pc_name
 echo $pc_name >> /etc/hostname
 echo "127.0.0.1\tlocalhost" >> /etc/hosts
@@ -25,5 +25,16 @@ passwd
 #pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --bootloader=GRUB --efi-directory=/efi --removable
 grub-mkconfig -o /boot/grub/grub.cfg
+
+# USER setup
+useradd -m -G wheel -s /bin/zsh stefan
+passwd stefan
+
+line_number=$(grep -n "# %wheel ALL=(ALL:ALL) ALL" /etc/sudoers | cut -d ':' -f 1)
+
+if [ ! -z "$line_number" ]; then
+    sed -i "${line_number}s/^# //" /etc/sudoers
+fi
+
 read -p "I am ready." dummy
 exit
