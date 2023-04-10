@@ -26,6 +26,7 @@ if $is_uefi == true; then
    mkfs.fat32 -F32 /dev/vda2
 fi
 
+mkswap /dev/vda1
 swapon /dev/vda1
 
 mount --mkdir /dev/vda3 /mnt
@@ -37,4 +38,5 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp configSystem /mnt/root
 arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
 rm /mnt/root/configSystem
+unmount -R /mnt
 reboot

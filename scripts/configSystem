@@ -25,4 +25,5 @@ passwd
 #pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --bootloader=GRUB --efi-directory=/efi --removable
 grub-mkconfig -o /boot/grub/grub.cfg
+read -p "I am ready." dummy
 exit

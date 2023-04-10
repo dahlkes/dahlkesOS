@@ -111,6 +111,7 @@ fi
 
 Swap Partition:
 #+BEGIN_SRC bash
+mkswap /dev/vda1
 swapon /dev/vda1
 #+END_SRC
 ** Mount the partitions
@@ -130,6 +131,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 cp configSystem /mnt/root
 arch-chroot /mnt /bin/bash -c "bash /root/configSystem"
 rm /mnt/root/configSystem
+unmount -R /mnt
 reboot
 #+end_src
 ** Configure script after chroot
@@ -151,6 +153,7 @@ passwd
 #pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --bootloader=GRUB --efi-directory=/efi --removable
 grub-mkconfig -o /boot/grub/grub.cfg
+read -p "I am ready." dummy
 exit
 #+end_src
 *
