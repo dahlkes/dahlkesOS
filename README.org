@@ -39,8 +39,8 @@
 #+CAPTION: DahlkesOS scrot
 #+ATTR_HTML: :alt DahlkesOS scrot :title DahlkesOS Scrot :aling left
 
-DahlkesOS is the installation script for my personal ArchLinux flaovur.
-It is moslty based on DTOS by Derek Taylor (DistroTube) and I added my changes to fit my personal needs.
+DahlkesOS is the installation script for my personal ArchLinux flavour.
+It is moslty based on DTOS by Derek Taylor (DistroTube) and I added some changes to fit my personal needs.
 * Installing DahlkeOS
 ** Creating ISO
 Before running this script you have to create the DahlkesOS iso.
@@ -114,7 +114,7 @@ sudo pacman --noconfirm --needed -Syu libnewt || error "Error syncing the repos.
 * Welcome message
 #+begin_src bash
 welcome() { \
-    whiptail --title "Installing DahlkesOS!" --msgbox "This is a script that will install what I sarcastically call DTOS (DT's operating system).  It's really just an installation script for those that want to try out my tiling window manager configurations and associated programs.  You will be asked to enter your sudo password at various points during this installation, so stay near the computer.\\n\\n-DT (Derek Taylor, aka DistroTube)" 16 60
+    whiptail --title "Installing DahlkesOS!" --msgbox "This is a script that will install my flavour of ArchLinux.  You will be asked to enter your sudo password at various points during this installation, so stay near the computer.\\n\\nStefan Dahlke" 16 60
 }
 
 welcome || error "User choose to exit."
@@ -122,11 +122,11 @@ welcome || error "User choose to exit."
 * Warning the user about potential problems
 #+begin_src bash
 speedwarning() { \
-    whiptail --title "Installing DTOS!" --yesno "WARNING! The ParallelDownloads option is not enabled in /etc/pacman.conf. This may result in slower installation speeds. Are you sure you want to continue?" 16 60 || error "User choose to exit."
+    whiptail --title "Installing DahlkesOS!" --yesno "WARNING! The ParallelDownloads option is not enabled in /etc/pacman.conf. This may result in slower installation speeds. Are you sure you want to continue?" 16 60 || error "User choose to exit."
 }
 
 distrowarning() { \
-    whiptail --title "Installing DTOS!" --msgbox "WARNING! While this script works on all Arch based distros, some distros choose to package certain things that we also package, which may result in errors when trying to install DTOS packages. If this happens, please look at the package list and remove conflicts manually." 16 60 || error "User choose to exit."
+    whiptail --title "Installing DahlkesOS!" --msgbox "WARNING! While this script works on all Arch based distros, some distros choose to package certain things that we also package, which may result in errors when trying to install DTOS packages. If this happens, please look at the package list and remove conflicts manually." 16 60 || error "User choose to exit."
 }
 
 grep -qs "#ParallelDownloads" /etc/pacman.conf && speedwarning
@@ -189,8 +189,11 @@ sudo pacman --noconfirm --needed -Sy dtos-core-repo/paru-bin || error "Error ins
 
 #+end_src
 * Install window manager
-sudo pacman -Sy xmonad xmonad-contrib dtos-xmonad xmobar dtos-xmobar polybar dtos-polybar
+#+begin_src bash
+sudo pacman -Sy xmonad xmonad-contrib dtos-xmonad xmobar dtos-xmobar polybar dtos-polybar || echo "Not installing XMonad"
+
 sudo pacman -Sy gnome
+#+end_src
 * Install the base packages from repositories
 All packages listed are either in the standard Arch repos or in the DTOS repos.  All of these will be installed using pacman.  The only program that will not be installed through pacman is Doom Emacs, which will be installed later in the script.
 
