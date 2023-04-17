@@ -123,7 +123,7 @@ mount --mkdir /dev/vda2 /mnt/efi
 * Install essential packags
 Install the essential arch packages to the root fs.
 #+begin_src bash
-pacstrap -K /mnt base linux linux-firmware vim git networkmanager grub efibootmgr sudo
+pacstrap -K /mnt - < pkglist.txt
 #+end_src
 * Configure system
 #+begin_src bash
