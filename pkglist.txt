@@ -8,15 +8,12 @@ xmonad
 xmonad-contrib
 xmobar
 gnome
-dmenu
 emacs
 firefox
 git
 htop
 networkmanager
 network-manager-applet
-qutebrowser
 sddm
 vim
-vlc
 zsh

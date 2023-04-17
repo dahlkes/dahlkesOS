@@ -9,6 +9,17 @@
 # DESC: A installation script for my personal ArchLinux setup.
 # WARNING: Run this script at your own risk.
 
+echo "Welcome to install DahlkesOS a flavour of my Arch Linux setup."
+read -p "Do you want to reinstall the system and use the existing user partition? (y/n): " answer
+
+answer="${answer,,}"
+
+reinstall=false
+
+if [[ "$answer" == "yes"] || ["$answer" == "y"]]; then
+    reinstall=true
+fi
+
 if [ -e /sys/firmware/efi/efivars ]; then
     is_uefi=true
 else
@@ -18,19 +29,46 @@ fi
 fdisk -l
 
 read -p "Which device to you want to partitionate? (input the whole device path /dev/sda) " device
-cfdisk $device
 
-mkfs.ext4 /dev/vda3
-
-if $is_uefi == true; then
-   mkfs.fat -F32 /dev/vda2
+if [ ! -e "$device"]; then
+    echo "Device $device does not exist."
+    exit 1
 fi
 
-mkswap /dev/vda1
-swapon /dev/vda1
+cfdisk $device
 
-mount --mkdir /dev/vda3 /mnt
-mount --mkdir /dev/vda2 /mnt/efi
+choose_partition() {
+    local type = "$1"
+
+    lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT
+    read -p "Choose the partition for the $type partiotion: " partition
+
+    if [ ! -e "/dev/$partition" ]; then
+        echo "Partition $partition does not exist."
+        exit 1
+    fi
+}
+
+swap_partition=$(choose_partition("swap"))
+boot_partition=$(choose_partition("boot"))
+root_partition=$(choose_partition("root"))
+user_partition=$(user_partition("user"))
+
+mkfs.ext4 $system_partition
+
+if $is_uefi == true; then
+   mkfs.fat -F32 $boot_partition
+fi
+
+mkswap $swap_partition
+swapon $swap_partition
+
+if $reinstall == FALSE;
+   mkfs.ext4 $user_partition
+fi
+
+mount --mkdir $root_partition /mnt
+mount --mkdir $boot_partition /mnt/efi
 
 pacstrap -K /mnt - < pkglist.txt
 
