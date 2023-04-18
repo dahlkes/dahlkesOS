@@ -16,7 +16,7 @@ answer="${answer,,}"
 
 reinstall=false
 
-if [[ "$answer" == "yes" || "$answer" == "y"]]; then
+if [[ "$answer" == "yes" || "$answer" == "y" ]]; then
     reinstall=true
 fi
 
@@ -47,12 +47,21 @@ choose_partition() {
         echo "Partition $partition does not exist."
         exit 1
     fi
+
+
 }
 
-swap_partition=$(choose_partition("swap"))
-boot_partition=$(choose_partition("boot"))
-root_partition=$(choose_partition("root"))
-user_partition=$(user_partition("user"))
+lsblk
+
+read -p "Choose swap partition: " swap_partition
+read -p "Choose boot partition: " boot_partition
+read -p "Choose root partition: " root_partition
+read -p "Chhose user partttion: " user_partition
+
+#swap_partition=$(choose_partition("swap"))
+#boot_partition=$(choose_partition("boot"))
+#root_partition=$(choose_partition("root"))
+#user_partition=$(user_partition("user"))
 
 mkfs.ext4 $system_partition
 
