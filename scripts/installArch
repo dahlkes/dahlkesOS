@@ -63,21 +63,21 @@ read -p "Chhose user partttion: " user_partition
 #root_partition=$(choose_partition("root"))
 #user_partition=$(user_partition("user"))
 
-mkfs.ext4 $system_partition
+mkfs.ext4 /dev/$system_partition
 
 if $is_uefi == true; then
-   mkfs.fat -F32 $boot_partition
+   mkfs.fat -F32 /dev/$boot_partition
 fi
 
-mkswap $swap_partition
-swapon $swap_partition
+mkswap /dev/$swap_partition
+swapon /dev/$swap_partition
 
 if $reinstall == FALSE; then
-   mkfs.ext4 $user_partition
+   mkfs.ext4 /dev/$user_partition
 fi
 
-mount --mkdir $root_partition /mnt
-mount --mkdir $boot_partition /mnt/efi
+mount --mkdir /dev/$root_partition /mnt
+mount --mkdir /dev/$boot_partition /mnt/efi
 
 pacstrap -K /mnt - < pkglist.txt
 

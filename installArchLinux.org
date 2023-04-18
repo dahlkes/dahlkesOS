@@ -148,33 +148,33 @@ read -p "Chhose user partttion: " user_partition
 #+END_SRC
 Root partition:
 #+BEGIN_SRC bash
-mkfs.ext4 $system_partition
+mkfs.ext4 /dev/$system_partition
 #+END_SRC
 
 UEFI partition:
 #+BEGIN_SRC bash
 if $is_uefi == true; then
-   mkfs.fat -F32 $boot_partition
+   mkfs.fat -F32 /dev/$boot_partition
 fi
 #+END_SRC
 
 Swap Partition:
 #+BEGIN_SRC bash
-mkswap $swap_partition
-swapon $swap_partition
+mkswap /dev/$swap_partition
+swapon /dev/$swap_partition
 #+END_SRC
 
 User Partition:
 #+BEGIN_SRC bash
 if $reinstall == FALSE; then
-   mkfs.ext4 $user_partition
+   mkfs.ext4 /dev/$user_partition
 fi
 #+END_SRC
 ** Mount the partitions
 Mount root and uefi disk to specific mount points.
 #+begin_src bash
-mount --mkdir $root_partition /mnt
-mount --mkdir $boot_partition /mnt/efi
+mount --mkdir /dev/$root_partition /mnt
+mount --mkdir /dev/$boot_partition /mnt/efi
 #+end_src
 * Install essential packags
 Install the essential arch packages to the root fs.
