@@ -88,7 +88,7 @@ answer="${answer,,}"
 
 reinstall=false
 
-if [[ "$answer" == "yes"] || ["$answer" == "y"]]; then
+if [[ "$answer" == "yes" || "$answer" == "y"]]; then
     reinstall=true
 fi
 #+END_SRC
@@ -157,7 +157,7 @@ swapon $swap_partition
 
 User Partition:
 #+BEGIN_SRC bash
-if $reinstall == FALSE;
+if $reinstall == FALSE; then
    mkfs.ext4 $user_partition
 fi
 #+END_SRC
