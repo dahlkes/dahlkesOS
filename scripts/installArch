@@ -78,6 +78,7 @@ fi
 
 mount --mkdir /dev/$root_partition /mnt
 mount --mkdir /dev/$boot_partition /mnt/efi
+mount --mkdir /dev/$user_partition /mnt/home
 
 pacstrap -K /mnt - < pkglist.txt
 

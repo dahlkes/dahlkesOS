@@ -28,6 +28,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # USER setup
 useradd -m -G wheel -s /bin/zsh stefan
+mount /dev/$
 passwd stefan
 
 line_number=$(grep -n "# %wheel ALL=(ALL:ALL) ALL" /etc/sudoers | cut -d ':' -f 1)
