@@ -16,4 +16,12 @@ networkmanager
 network-manager-applet
 sddm
 vim
+xorg-server
+xorg-xkill
+xorg-xmessage
+xorg-xprop
+xorg-xrdb
+xorg-xset
+xorg-xsetroot
+xterm
 zsh

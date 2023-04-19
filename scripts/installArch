@@ -63,7 +63,7 @@ read -p "Chhose user partttion: " user_partition
 #root_partition=$(choose_partition("root"))
 #user_partition=$(user_partition("user"))
 
-mkfs.ext4 /dev/$system_partition
+mkfs.ext4 /dev/$root_partition
 
 if $is_uefi == true; then
    mkfs.fat -F32 /dev/$boot_partition

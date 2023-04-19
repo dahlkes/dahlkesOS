@@ -148,7 +148,7 @@ read -p "Chhose user partttion: " user_partition
 #+END_SRC
 Root partition:
 #+BEGIN_SRC bash
-mkfs.ext4 /dev/$system_partition
+mkfs.ext4 /dev/$root_partition
 #+END_SRC
 
 UEFI partition:
